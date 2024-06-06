@@ -16,3 +16,14 @@ app.autodiscover_tasks()
 @app.task(bind=True)
 def debug_task(self):
     print(f"Request: {self.request!r}")
+    
+    
+# myproject/celery.py
+from celery.schedules import crontab
+
+app.conf.beat_schedule = {
+    'write-hello-every-minute': {
+        'task': 'basicSetup.tasks.write_hello',
+        'schedule': crontab(minute='*'),
+    },
+}
